@@ -87,7 +87,7 @@ class AppThemes {
       bodyLarge: TextStyle(fontSize: 16),
       bodyMedium: TextStyle(fontSize: 14),
     ),
-    fontFamilyFallback: ['Poppins'],
+    fontFamily: 'Poppins',
   );
 
   // Dark theme
@@ -137,7 +137,7 @@ class AppThemes {
       bodyLarge: TextStyle(fontSize: 16, color: Colors.white),
       bodyMedium: TextStyle(fontSize: 14, color: Colors.white),
     ),
-    fontFamilyFallback: ['Poppins'],
+    fontFamily: 'Poppins',
   );
 
   // Restaurant theme
@@ -186,7 +186,7 @@ class AppThemes {
       bodyLarge: TextStyle(fontSize: 16, color: Colors.grey[800]),
       bodyMedium: TextStyle(fontSize: 14, color: Colors.grey[800]),
     ),
-    fontFamilyFallback: ['Poppins'],
+    fontFamily: 'Poppins',
   );
 
   // Cafe theme
@@ -235,7 +235,7 @@ class AppThemes {
       bodyLarge: TextStyle(fontSize: 16, color: Colors.brown[900]),
       bodyMedium: TextStyle(fontSize: 14, color: Colors.brown[900]),
     ),
-    fontFamilyFallback: ['Poppins'],
+    fontFamily: 'Poppins',
   );
 
   // Map of built-in themes
@@ -290,7 +290,7 @@ class AppThemes {
           ),
         ),
       ),
-      fontFamilyFallback: fontFamily != null ? [fontFamily] : ['Poppins'],
+      fontFamily: fontFamily ?? 'Poppins',
     );
     
     return AppTheme(
