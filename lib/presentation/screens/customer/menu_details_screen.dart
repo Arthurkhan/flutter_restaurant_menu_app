@@ -116,17 +116,17 @@ class _MenuDetailsScreenState extends State<MenuDetailsScreen> {
               children: [
                 Text(
                   'Description',
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 SizedBox(height: 8),
                 Text(
                   menu.description,
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 SizedBox(height: 16),
                 Text(
                   'Categories',
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 SizedBox(height: 8),
               ],
