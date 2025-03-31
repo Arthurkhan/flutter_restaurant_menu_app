@@ -72,7 +72,7 @@ class ItemCard extends StatelessWidget {
                   // Item name
                   Text(
                     item.name,
-                    style: Theme.of(context).textTheme.subtitle1,
+                    style: Theme.of(context).textTheme.titleMedium,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -93,7 +93,7 @@ class ItemCard extends StatelessWidget {
                     // Item description
                     Text(
                       item.description,
-                      style: Theme.of(context).textTheme.bodyText2,
+                      style: Theme.of(context).textTheme.bodyMedium,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
