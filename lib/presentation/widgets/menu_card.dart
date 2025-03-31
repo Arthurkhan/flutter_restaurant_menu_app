@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../data/models/menu.dart';
-import '../../config/constants.dart';
 
 /// Widget that displays a menu card
 class MenuCard extends StatelessWidget {
