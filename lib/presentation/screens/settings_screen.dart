@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/theme/theme_bloc.dart';
 import '../../config/themes.dart';
-import '../../config/constants.dart';
 
 /// Screen that shows app settings
 class SettingsScreen extends StatelessWidget {
@@ -42,7 +41,7 @@ class SettingsScreen extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
       child: Text(
         title,
-        style: Theme.of(context).textTheme.headline6?.copyWith(
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(
           color: Theme.of(context).primaryColor,
         ),
       ),
