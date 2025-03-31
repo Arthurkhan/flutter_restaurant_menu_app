@@ -40,149 +40,147 @@ class AppRoutes {
     // Extract route parameters if any
     final uri = Uri.parse(settings.name ?? '/');
     final pathSegments = uri.pathSegments;
-    final queryParams = uri.queryParameters;
     
     // Route name with path parameters
     String routeName = settings.name ?? '/';
     
-    // Extract route arguments
-    final args = settings.arguments;
-    
-    switch (routeName) {
-      case splash:
-        return MaterialPageRoute(builder: (_) => SplashScreen());
-        
-      case adminDashboard:
-        return MaterialPageRoute(builder: (_) => AdminDashboardScreen());
-        
-      case menuEditor:
-        return MaterialPageRoute(
-          builder: (_) => MenuEditorScreen(menuId: null)
-        );
-        
-      case settings:
-        return MaterialPageRoute(builder: (_) => SettingsScreen());
-        
-      default:
-        // Handle dynamic routes with path parameters
-        
-        // Admin routes
-        if (routeName.startsWith('/admin/menu/') && pathSegments.length == 3) {
-          final menuId = pathSegments[2];
-          return MaterialPageRoute(
-            builder: (_) => MenuEditorScreen(menuId: menuId)
-          );
-        }
-        
-        if (routeName.startsWith('/admin/menu/') && 
-            pathSegments.length == 4 && 
-            pathSegments[3] == 'category') {
-          final menuId = pathSegments[2];
-          return MaterialPageRoute(
-            builder: (_) => CategoryEditorScreen(
-              menuId: menuId,
-              categoryId: null,
-            )
-          );
-        }
-        
-        if (routeName.startsWith('/admin/menu/') && 
-            pathSegments.length == 5 && 
-            pathSegments[3] == 'category') {
-          final menuId = pathSegments[2];
-          final categoryId = pathSegments[4];
-          return MaterialPageRoute(
-            builder: (_) => CategoryEditorScreen(
-              menuId: menuId,
-              categoryId: categoryId,
-            )
-          );
-        }
-        
-        if (routeName.startsWith('/admin/menu/') && 
-            pathSegments.length == 6 && 
-            pathSegments[3] == 'category' &&
-            pathSegments[5] == 'item') {
-          final menuId = pathSegments[2];
-          final categoryId = pathSegments[4];
-          return MaterialPageRoute(
-            builder: (_) => ItemEditorScreen(
-              menuId: menuId,
-              categoryId: categoryId,
-              itemId: null,
-            )
-          );
-        }
-        
-        if (routeName.startsWith('/admin/menu/') && 
-            pathSegments.length == 7 && 
-            pathSegments[3] == 'category' &&
-            pathSegments[5] == 'item') {
-          final menuId = pathSegments[2];
-          final categoryId = pathSegments[4];
-          final itemId = pathSegments[6];
-          return MaterialPageRoute(
-            builder: (_) => ItemEditorScreen(
-              menuId: menuId,
-              categoryId: categoryId,
-              itemId: itemId,
-            )
-          );
-        }
-        
-        if (routeName == themeEditor) {
-          return MaterialPageRoute(builder: (_) => ThemeEditorScreen());
-        }
-        
-        // Customer routes
-        if (routeName == menuList) {
-          return MaterialPageRoute(builder: (_) => MenuListScreen());
-        }
-        
-        if (routeName.startsWith('/menu/') && pathSegments.length == 2) {
-          final menuId = pathSegments[1];
-          return MaterialPageRoute(
-            builder: (_) => MenuDetailsScreen(menuId: menuId)
-          );
-        }
-        
-        if (routeName.startsWith('/menu/') && 
-            pathSegments.length == 4 && 
-            pathSegments[2] == 'category') {
-          final menuId = pathSegments[1];
-          final categoryId = pathSegments[3];
-          return MaterialPageRoute(
-            builder: (_) => CategoryDetailsScreen(
-              menuId: menuId,
-              categoryId: categoryId,
-            )
-          );
-        }
-        
-        if (routeName.startsWith('/menu/') && 
-            pathSegments.length == 6 && 
-            pathSegments[2] == 'category' &&
-            pathSegments[4] == 'item') {
-          final menuId = pathSegments[1];
-          final categoryId = pathSegments[3];
-          final itemId = pathSegments[5];
-          return MaterialPageRoute(
-            builder: (_) => ItemDetailsScreen(
-              menuId: menuId,
-              categoryId: categoryId,
-              itemId: itemId,
-            )
-          );
-        }
-        
-        // Default route if no match found
-        return MaterialPageRoute(
-          builder: (_) => Scaffold(
-            body: Center(
-              child: Text('Route not found: $routeName'),
-            ),
-          ),
-        );
+    // Handle specific routes
+    if (routeName == splash) {
+      return MaterialPageRoute(builder: (_) => SplashScreen());
     }
+    
+    if (routeName == adminDashboard) {
+      return MaterialPageRoute(builder: (_) => AdminDashboardScreen());
+    }
+    
+    if (routeName == menuEditor) {
+      return MaterialPageRoute(
+        builder: (_) => MenuEditorScreen(menuId: null)
+      );
+    }
+    
+    if (routeName == settings) {
+      return MaterialPageRoute(builder: (_) => SettingsScreen());
+    }
+    
+    // Handle dynamic routes with path parameters
+    
+    // Admin routes
+    if (routeName.startsWith('/admin/menu/') && pathSegments.length == 3) {
+      final menuId = pathSegments[2];
+      return MaterialPageRoute(
+        builder: (_) => MenuEditorScreen(menuId: menuId)
+      );
+    }
+    
+    if (routeName.startsWith('/admin/menu/') && 
+        pathSegments.length == 4 && 
+        pathSegments[3] == 'category') {
+      final menuId = pathSegments[2];
+      return MaterialPageRoute(
+        builder: (_) => CategoryEditorScreen(
+          menuId: menuId,
+          categoryId: null,
+        )
+      );
+    }
+    
+    if (routeName.startsWith('/admin/menu/') && 
+        pathSegments.length == 5 && 
+        pathSegments[3] == 'category') {
+      final menuId = pathSegments[2];
+      final categoryId = pathSegments[4];
+      return MaterialPageRoute(
+        builder: (_) => CategoryEditorScreen(
+          menuId: menuId,
+          categoryId: categoryId,
+        )
+      );
+    }
+    
+    if (routeName.startsWith('/admin/menu/') && 
+        pathSegments.length == 6 && 
+        pathSegments[3] == 'category' &&
+        pathSegments[5] == 'item') {
+      final menuId = pathSegments[2];
+      final categoryId = pathSegments[4];
+      return MaterialPageRoute(
+        builder: (_) => ItemEditorScreen(
+          menuId: menuId,
+          categoryId: categoryId,
+          itemId: null,
+        )
+      );
+    }
+    
+    if (routeName.startsWith('/admin/menu/') && 
+        pathSegments.length == 7 && 
+        pathSegments[3] == 'category' &&
+        pathSegments[5] == 'item') {
+      final menuId = pathSegments[2];
+      final categoryId = pathSegments[4];
+      final itemId = pathSegments[6];
+      return MaterialPageRoute(
+        builder: (_) => ItemEditorScreen(
+          menuId: menuId,
+          categoryId: categoryId,
+          itemId: itemId,
+        )
+      );
+    }
+    
+    if (routeName == themeEditor) {
+      return MaterialPageRoute(builder: (_) => ThemeEditorScreen());
+    }
+    
+    // Customer routes
+    if (routeName == menuList) {
+      return MaterialPageRoute(builder: (_) => MenuListScreen());
+    }
+    
+    if (routeName.startsWith('/menu/') && pathSegments.length == 2) {
+      final menuId = pathSegments[1];
+      return MaterialPageRoute(
+        builder: (_) => MenuDetailsScreen(menuId: menuId)
+      );
+    }
+    
+    if (routeName.startsWith('/menu/') && 
+        pathSegments.length == 4 && 
+        pathSegments[2] == 'category') {
+      final menuId = pathSegments[1];
+      final categoryId = pathSegments[3];
+      return MaterialPageRoute(
+        builder: (_) => CategoryDetailsScreen(
+          menuId: menuId,
+          categoryId: categoryId,
+        )
+      );
+    }
+    
+    if (routeName.startsWith('/menu/') && 
+        pathSegments.length == 6 && 
+        pathSegments[2] == 'category' &&
+        pathSegments[4] == 'item') {
+      final menuId = pathSegments[1];
+      final categoryId = pathSegments[3];
+      final itemId = pathSegments[5];
+      return MaterialPageRoute(
+        builder: (_) => ItemDetailsScreen(
+          menuId: menuId,
+          categoryId: categoryId,
+          itemId: itemId,
+        )
+      );
+    }
+    
+    // Default route if no match found
+    return MaterialPageRoute(
+      builder: (_) => Scaffold(
+        body: Center(
+          child: Text('Route not found: $routeName'),
+        ),
+      ),
+    );
   }
 }
