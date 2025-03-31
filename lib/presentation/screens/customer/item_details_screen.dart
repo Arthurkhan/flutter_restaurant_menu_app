@@ -141,7 +141,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   children: [
                     Text(
                       '\$${item.price.toStringAsFixed(2)}',
-                      style: Theme.of(context).textTheme.headline5?.copyWith(
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                         color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.bold,
                       ),
@@ -164,14 +164,14 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 // Description
                 Text(
                   'Description',
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 SizedBox(height: 8),
                 Text(
                   item.description.isNotEmpty
                       ? item.description
                       : 'No description available',
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 SizedBox(height: 24),
                 
@@ -179,7 +179,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 if (item.tags.isNotEmpty) ...[
                   Text(
                     'Tags',
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   SizedBox(height: 8),
                   Wrap(
@@ -199,7 +199,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 if (item.nutritionalInfo.isNotEmpty) ...[
                   Text(
                     'Nutritional Info',
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   SizedBox(height: 8),
                   Column(
