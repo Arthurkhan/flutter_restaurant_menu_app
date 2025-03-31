@@ -50,7 +50,6 @@ class AppThemes {
       primary: Colors.blue,
       secondary: Colors.blueAccent,
       surface: Colors.white,
-      background: Colors.grey[100]!,
       error: Colors.red,
     ),
     scaffoldBackgroundColor: Colors.grey[100],
@@ -88,7 +87,7 @@ class AppThemes {
       bodyLarge: TextStyle(fontSize: 16),
       bodyMedium: TextStyle(fontSize: 14),
     ),
-    fontFamily: 'Poppins',
+    fontFamilyFallback: ['Poppins'],
   );
 
   // Dark theme
@@ -100,7 +99,6 @@ class AppThemes {
       primary: Colors.blueAccent,
       secondary: Colors.lightBlueAccent,
       surface: Colors.grey[850]!,
-      background: Colors.grey[900]!,
       error: Colors.redAccent,
     ),
     scaffoldBackgroundColor: Colors.grey[900],
@@ -139,7 +137,7 @@ class AppThemes {
       bodyLarge: TextStyle(fontSize: 16, color: Colors.white),
       bodyMedium: TextStyle(fontSize: 14, color: Colors.white),
     ),
-    fontFamily: 'Poppins',
+    fontFamilyFallback: ['Poppins'],
   );
 
   // Restaurant theme
@@ -151,7 +149,6 @@ class AppThemes {
       primary: Colors.deepOrange,
       secondary: Colors.amber,
       surface: Colors.white,
-      background: Colors.grey[50]!,
       error: Colors.red,
     ),
     scaffoldBackgroundColor: Colors.grey[50],
@@ -162,7 +159,6 @@ class AppThemes {
         fontSize: 24,
         fontWeight: FontWeight.bold,
         color: Colors.white,
-        fontFamily: 'Poppins',
       ),
     ),
     cardTheme: CardTheme(
@@ -190,7 +186,7 @@ class AppThemes {
       bodyLarge: TextStyle(fontSize: 16, color: Colors.grey[800]),
       bodyMedium: TextStyle(fontSize: 14, color: Colors.grey[800]),
     ),
-    fontFamily: 'Poppins',
+    fontFamilyFallback: ['Poppins'],
   );
 
   // Cafe theme
@@ -202,7 +198,6 @@ class AppThemes {
       primary: Colors.brown,
       secondary: Colors.green[700]!,
       surface: Colors.white,
-      background: Color(0xFFF5F5F0),
       error: Colors.red[700]!,
     ),
     scaffoldBackgroundColor: Color(0xFFF5F5F0),
@@ -213,7 +208,6 @@ class AppThemes {
         fontSize: 22,
         fontWeight: FontWeight.w600,
         color: Colors.white,
-        fontFamily: 'Poppins',
       ),
     ),
     cardTheme: CardTheme(
@@ -241,7 +235,7 @@ class AppThemes {
       bodyLarge: TextStyle(fontSize: 16, color: Colors.brown[900]),
       bodyMedium: TextStyle(fontSize: 14, color: Colors.brown[900]),
     ),
-    fontFamily: 'Poppins',
+    fontFamilyFallback: ['Poppins'],
   );
 
   // Map of built-in themes
@@ -296,7 +290,7 @@ class AppThemes {
           ),
         ),
       ),
-      fontFamily: fontFamily ?? baseTheme.fontFamily,
+      fontFamilyFallback: fontFamily != null ? [fontFamily] : ['Poppins'],
     );
     
     return AppTheme(
