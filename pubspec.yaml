@@ -1,4 +1,4 @@
-name: restaurant_menu_app
+name: flutter_restaurant_menu_app
 description: A Flutter application for restaurant menu management with admin and customer interfaces.
 publish_to: 'none'
 version: 1.0.0+1
