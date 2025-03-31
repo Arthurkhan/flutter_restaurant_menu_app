@@ -273,15 +273,19 @@ class AppThemes {
   }) {
     final baseTheme = themes[baseThemeType]!.theme;
     
-    final customTheme = baseTheme.copyWith(
+    // Instead of using copyWith for fontFamily, create a new ThemeData
+    final customTheme = ThemeData(
+      brightness: baseTheme.brightness,
       primaryColor: primaryColor,
       colorScheme: baseTheme.colorScheme.copyWith(
         primary: primaryColor,
         secondary: secondaryColor,
       ),
+      scaffoldBackgroundColor: baseTheme.scaffoldBackgroundColor,
       appBarTheme: baseTheme.appBarTheme.copyWith(
         backgroundColor: primaryColor,
       ),
+      cardTheme: baseTheme.cardTheme,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: primaryColor,
@@ -290,6 +294,7 @@ class AppThemes {
           ),
         ),
       ),
+      textTheme: baseTheme.textTheme,
       fontFamily: fontFamily ?? 'Poppins',
     );
     
