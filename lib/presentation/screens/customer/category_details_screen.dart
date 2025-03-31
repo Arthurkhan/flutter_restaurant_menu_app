@@ -6,7 +6,6 @@ import '../../../config/routes.dart';
 import '../../../data/models/menu.dart';
 import '../../../data/models/menu_category.dart';
 import '../../../data/models/menu_item.dart';
-import '../../widgets/item_card.dart';
 import '../../widgets/error_view.dart';
 import '../../widgets/loading_view.dart';
 
@@ -138,19 +137,19 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
               children: [
                 Text(
                   'Description',
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 SizedBox(height: 8),
                 Text(
                   category.description.isNotEmpty
                       ? category.description
                       : 'No description available',
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 SizedBox(height: 16),
                 Text(
                   'Menu Items',
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 SizedBox(height: 8),
               ],
@@ -308,7 +307,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                   // Item name
                   Text(
                     item.name,
-                    style: Theme.of(context).textTheme.headline6?.copyWith(
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontSize: 16,
                     ),
                     maxLines: 1,
@@ -331,7 +330,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                     SizedBox(height: 4),
                     Text(
                       item.description,
-                      style: Theme.of(context).textTheme.bodyText2,
+                      style: Theme.of(context).textTheme.bodyMedium,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
