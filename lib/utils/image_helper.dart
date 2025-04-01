@@ -17,7 +17,7 @@ class ImageHelper {
     if (source == null) return null;
 
     try {
-      final imageFile = await _picker.pickImage(
+      final XFile? imageFile = await _picker.pickImage(
         source: source,
         maxWidth: 1200,
         maxHeight: 1200,
@@ -31,18 +31,17 @@ class ImageHelper {
       return savedPath;
     } catch (e) {
       debugPrint('Error picking image: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to pick image: $e')),
-      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to pick image: $e')),
+        );
+      }
       return null;
     }
   }
 
   /// Shows a dialog to choose between camera and gallery
   static Future<ImageSource?> _showImageSourceDialog(BuildContext context) async {
-    final mediaQuery = MediaQuery.of(context);
-    final isTablet = mediaQuery.size.width >= AppConstants.tabletMinWidth;
-    
     return await showModalBottomSheet<ImageSource>(
       context: context,
       shape: RoundedRectangleBorder(
@@ -62,23 +61,15 @@ class ImageHelper {
               ),
               Divider(),
               ListTile(
-                leading: Icon(Icons.camera_alt, size: isTablet ? 32 : 24),
+                leading: Icon(Icons.camera_alt),
                 title: Text('Camera'),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: isTablet ? 12 : 8,
-                ),
                 onTap: () {
                   Navigator.of(context).pop(ImageSource.camera);
                 },
               ),
               ListTile(
-                leading: Icon(Icons.photo_library, size: isTablet ? 32 : 24),
+                leading: Icon(Icons.photo_library),
                 title: Text('Gallery'),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: isTablet ? 12 : 8,
-                ),
                 onTap: () {
                   Navigator.of(context).pop(ImageSource.gallery);
                 },
