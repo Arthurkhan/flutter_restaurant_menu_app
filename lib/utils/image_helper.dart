@@ -44,7 +44,7 @@ class ImageHelper {
   static Future<ImageSource?> _showImageSourceDialog(BuildContext context) async {
     return await showModalBottomSheet<ImageSource>(
       context: context,
-      shape: const RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (context) {
@@ -53,28 +53,28 @@ class ImageHelper {
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0),
                 child: Text(
                   'Select Image Source',
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
-              const Divider(),
+              Divider(),
               ListTile(
-                leading: const Icon(Icons.camera_alt),
-                title: const Text('Camera'),
+                leading: Icon(Icons.camera_alt),
+                title: Text('Camera'),
                 onTap: () {
                   Navigator.of(context).pop(ImageSource.camera);
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: const Text('Gallery'),
+                leading: Icon(Icons.photo_library),
+                title: Text('Gallery'),
                 onTap: () {
                   Navigator.of(context).pop(ImageSource.gallery);
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
             ],
           ),
         );
@@ -93,4 +93,150 @@ class ImageHelper {
     }
     
     // Generate a unique filename
-    final filename = '${_uuid.v4()}${path.extension(imageFile.path)}';\n    final savedFile = await imageFile.copy('${imagesDir.path}/$filename');\n    \n    return savedFile.path;\n  }\n  \n  /// Returns a widget to display an image based on its path\n  static Widget getImageWidget(String? imagePath, {double? width, double? height, BoxFit fit = BoxFit.cover}) {\n    if (imagePath == null || imagePath.isEmpty) {\n      return _buildPlaceholder(width: width, height: height);\n    }\n    \n    try {\n      if (imagePath.startsWith('assets/')) {\n        return Image.asset(\n          imagePath,\n          width: width,\n          height: height,\n          fit: fit,\n          errorBuilder: (context, error, stackTrace) {\n            return _buildPlaceholder(width: width, height: height);\n          },\n        );\n      } else if (imagePath.startsWith('/')) {\n        return Image.file(\n          File(imagePath),\n          width: width,\n          height: height,\n          fit: fit,\n          errorBuilder: (context, error, stackTrace) {\n            return _buildPlaceholder(width: width, height: height);\n          },\n        );\n      } else {\n        return _buildPlaceholder(width: width, height: height);\n      }\n    } catch (e) {\n      debugPrint('Error loading image: $e');\n      return _buildPlaceholder(width: width, height: height);\n    }\n  }\n  \n  /// Builds a placeholder widget when no image is available\n  static Widget _buildPlaceholder({double? width, double? height}) {\n    return Container(\n      width: width,\n      height: height,\n      color: Colors.grey[300],\n      child: Center(\n        child: Icon(\n          Icons.image,\n          size: 48,\n          color: Colors.grey[600],\n        ),\n      ),\n    );\n  }\n  \n  /// Deletes an image file if it's a local file path\n  static Future<bool> deleteImage(String? imagePath) async {\n    if (imagePath == null || imagePath.isEmpty || imagePath.startsWith('assets/')) {\n      return false;\n    }\n    \n    try {\n      final file = File(imagePath);\n      if (await file.exists()) {\n        await file.delete();\n        return true;\n      }\n      return false;\n    } catch (e) {\n      debugPrint('Error deleting image: $e');\n      return false;\n    }\n  }\n  \n  /// Creates a decorated container for image selection\n  static Widget buildImagePickerWidget({\n    required BuildContext context, \n    required String? currentImagePath,\n    required Function(String?) onImageSelected,\n    double? width,\n    double? height,\n    double? borderRadius,\n  }) {\n    return GestureDetector(\n      onTap: () async {\n        final newImagePath = await pickImage(context);\n        if (newImagePath != null) {\n          // Delete the old image if it's not an asset\n          if (currentImagePath != null && \n              currentImagePath.isNotEmpty && \n              !currentImagePath.startsWith('assets/')) {\n            await deleteImage(currentImagePath);\n          }\n          onImageSelected(newImagePath);\n        }\n      },\n      child: Container(\n        width: width ?? double.infinity,\n        height: height ?? 200,\n        decoration: BoxDecoration(\n          borderRadius: BorderRadius.circular(borderRadius ?? 12),\n          border: Border.all(color: Colors.grey[400]!.withAlpha(255)),\n        ),\n        child: ClipRRect(\n          borderRadius: BorderRadius.circular(borderRadius ?? 12),\n          child: Stack(\n            fit: StackFit.expand,\n            children: [\n              getImageWidget(currentImagePath, width: width, height: height),\n              Container(\n                decoration: BoxDecoration(\n                  gradient: LinearGradient(\n                    begin: Alignment.bottomCenter,\n                    end: Alignment.center,\n                    colors: [\n                      Colors.black.withAlpha(128),\n                      Colors.transparent,\n                    ],\n                  ),\n                ),\n              ),\n              Positioned(\n                bottom: 12,\n                right: 12,\n                child: Container(\n                  padding: const EdgeInsets.all(8),\n                  decoration: BoxDecoration(\n                    color: Theme.of(context).primaryColor,\n                    shape: BoxShape.circle,\n                  ),\n                  child: const Icon(\n                    Icons.camera_alt,\n                    color: Colors.white,\n                    size: 20,\n                  ),\n                ),\n              ),\n            ],\n          ),\n        ),\n      ),\n    );\n  }\n}
+    final filename = '${_uuid.v4()}${path.extension(imageFile.path)}';
+    final savedFile = await imageFile.copy('${imagesDir.path}/$filename');
+    
+    return savedFile.path;
+  }
+  
+  /// Returns a widget to display an image based on its path
+  static Widget getImageWidget(String? imagePath, {double? width, double? height, BoxFit fit = BoxFit.cover}) {
+    if (imagePath == null || imagePath.isEmpty) {
+      return _buildPlaceholder(width: width, height: height);
+    }
+    
+    try {
+      if (imagePath.startsWith('assets/')) {
+        return Image.asset(
+          imagePath,
+          width: width,
+          height: height,
+          fit: fit,
+          errorBuilder: (context, error, stackTrace) {
+            return _buildPlaceholder(width: width, height: height);
+          },
+        );
+      } else if (imagePath.startsWith('/')) {
+        return Image.file(
+          File(imagePath),
+          width: width,
+          height: height,
+          fit: fit,
+          errorBuilder: (context, error, stackTrace) {
+            return _buildPlaceholder(width: width, height: height);
+          },
+        );
+      } else {
+        return _buildPlaceholder(width: width, height: height);
+      }
+    } catch (e) {
+      debugPrint('Error loading image: $e');
+      return _buildPlaceholder(width: width, height: height);
+    }
+  }
+  
+  /// Builds a placeholder widget when no image is available
+  static Widget _buildPlaceholder({double? width, double? height}) {
+    return Container(
+      width: width,
+      height: height,
+      color: Colors.grey[300],
+      child: Center(
+        child: Icon(
+          Icons.image,
+          size: 48,
+          color: Colors.grey[600],
+        ),
+      ),
+    );
+  }
+  
+  /// Deletes an image file if it's a local file path
+  static Future<bool> deleteImage(String? imagePath) async {
+    if (imagePath == null || imagePath.isEmpty || imagePath.startsWith('assets/')) {
+      return false;
+    }
+    
+    try {
+      final file = File(imagePath);
+      if (await file.exists()) {
+        await file.delete();
+        return true;
+      }
+      return false;
+    } catch (e) {
+      debugPrint('Error deleting image: $e');
+      return false;
+    }
+  }
+  
+  /// Creates a decorated container for image selection
+  static Widget buildImagePickerWidget({
+    required BuildContext context, 
+    required String? currentImagePath,
+    required Function(String?) onImageSelected,
+    double? width,
+    double? height,
+    double? borderRadius,
+  }) {
+    return GestureDetector(
+      onTap: () async {
+        final newImagePath = await pickImage(context);
+        if (newImagePath != null) {
+          // Delete the old image if it's not an asset
+          if (currentImagePath != null && 
+              currentImagePath.isNotEmpty && 
+              !currentImagePath.startsWith('assets/')) {
+            await deleteImage(currentImagePath);
+          }
+          onImageSelected(newImagePath);
+        }
+      },
+      child: Container(
+        width: width ?? double.infinity,
+        height: height ?? 200,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(borderRadius ?? 12),
+          border: Border.all(color: Colors.grey[400]!),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(borderRadius ?? 12),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              getImageWidget(currentImagePath, width: width, height: height),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.center,
+                    colors: [
+                      Colors.black.withOpacity(0.5),
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 12,
+                right: 12,
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.camera_alt,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
