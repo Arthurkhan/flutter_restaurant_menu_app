@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -11,7 +10,6 @@ import 'blocs/menu/menu_bloc.dart';
 import 'config/routes.dart';
 import 'config/constants.dart';
 import 'data/datasources/local_menu_data_source.dart';
-import 'data/datasources/remote_menu_data_source.dart';
 import 'data/repositories/menu_repository.dart';
 import 'presentation/screens/splash_screen.dart';
 
@@ -52,19 +50,14 @@ void main() async {
     },
   );
   
-  // Initialize data sources
-  final remoteDataSource = RemoteMenuDataSource(
-    client: http.Client(),
-    baseUrl: AppConstants.apiBaseUrl,
-  );
-  
+  // Initialize local data source only
   final localDataSource = LocalMenuDataSource(
     database: database,
     preferences: sharedPreferences,
   );
   
-  // Initialize repositories
-  final menuRepository = MenuRepository(remoteDataSource, localDataSource);
+  // Initialize repository with only local data source
+  final menuRepository = MenuRepository(localDataSource);
   
   // Run the app
   runApp(
@@ -87,7 +80,6 @@ void main() async {
       ),
     ),
   );
-    WidgetsFlutterBinding.ensureInitialized();
 }
 
 class MyApp extends StatelessWidget {
