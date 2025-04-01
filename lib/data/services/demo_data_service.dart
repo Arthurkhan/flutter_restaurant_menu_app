@@ -201,7 +201,7 @@ class DemoDataService {
           allergens: ['Soy'],
           options: [
             {'name': 'Spice Level', 'choices': ['Mild', 'Medium', 'Hot']},
-            {'name': 'Add Protein', 'choices': ['Tofu (+$3)', 'Chicken (+$4)', 'Beef (+$5)', 'None']},
+            {'name': 'Add Protein', 'choices': ['Tofu (+\$3)', 'Chicken (+\$4)', 'Beef (+\$5)', 'None']},
           ],
           createdAt: now,
           updatedAt: now,
