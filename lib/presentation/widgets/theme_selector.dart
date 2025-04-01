@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/theme/theme_bloc.dart';
 import '../../config/themes.dart';
-import '../../config/constants.dart';
 
 /// A widget that displays theme selection options with previews
 class ThemeSelector extends StatelessWidget {
@@ -105,7 +104,7 @@ class ThemeSelector extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Theme name input
-                  TextField(
+                  TextFormField(
                     decoration: InputDecoration(
                       labelText: 'Theme Name',
                       hintText: 'Enter a name for your custom theme',
@@ -132,7 +131,6 @@ class ThemeSelector extends StatelessWidget {
                     items: [
                       AppThemeType.light,
                       AppThemeType.dark,
-                      AppThemeType.black,
                     ].map((type) {
                       return DropdownMenuItem<AppThemeType>(
                         value: type,
