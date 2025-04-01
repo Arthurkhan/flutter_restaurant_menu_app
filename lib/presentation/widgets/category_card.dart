@@ -10,6 +10,7 @@ class CategoryCard extends StatelessWidget {
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
   final bool isAdmin;
+  final bool showActions;
 
   const CategoryCard({
     Key? key,
@@ -18,6 +19,7 @@ class CategoryCard extends StatelessWidget {
     this.onEdit,
     this.onDelete,
     this.isAdmin = false,
+    this.showActions = true,
   }) : super(key: key);
 
   @override
@@ -87,8 +89,8 @@ class CategoryCard extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                         decoration: BoxDecoration(
                           color: category.isVisible
-                            ? Colors.green.withValues(red: 0, green: 150, blue: 0, alpha: 200)
-                            : Colors.red.withValues(red: 200, green: 0, blue: 0, alpha: 200),
+                            ? Colors.green.withValues(red: 0.0, green: 150.0, blue: 0.0, alpha: 200.0)
+                            : Colors.red.withValues(red: 200.0, green: 0.0, blue: 0.0, alpha: 200.0),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
@@ -104,7 +106,7 @@ class CategoryCard extends StatelessWidget {
                   ),
                   
                   // Admin actions
-                  if (isAdmin) ...[
+                  if (isAdmin && showActions) ...[
                     SizedBox(height: 16),
                     _buildAdminActions(context),
                   ],
