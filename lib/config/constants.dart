@@ -1,10 +1,6 @@
 /// App-wide constants
 class AppConstants {
-  // API Configuration
-  static const String apiBaseUrl = 'https://api.example.com/v1';
-  static const int apiTimeoutSeconds = 30;
-  
-  // Cache Configuration
+  // Local Storage Configuration
   static const int cacheDurationHours = 24;
   
   // UI Configuration
@@ -20,8 +16,8 @@ class AppConstants {
   static const double paddingXL = 32;
   
   // Images
-  static const String placeholderImageUrl = 'assets/images/placeholder.png';
-  static const String logoUrl = 'assets/images/logo.png';
+  static const String placeholderImagePath = 'assets/images/placeholder.png';
+  static const String logoPath = 'assets/images/logo.png';
   
   // Animation Durations
   static const Duration shortAnimationDuration = Duration(milliseconds: 200);
