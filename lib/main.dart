@@ -15,7 +15,20 @@ import 'data/datasources/remote_menu_data_source.dart';
 import 'data/repositories/menu_repository.dart';
 import 'presentation/screens/splash_screen.dart';
 
+import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'dart:io';
+
 void main() async {
+
+   if (Platform.isWindows || Platform.isLinux) {
+    // Initialize FFI
+    sqfliteFfiInit();
+    // Change the default factory
+    databaseFactory = databaseFactoryFfi;
+  }
+
   // Ensure Flutter binding is initialized
   WidgetsFlutterBinding.ensureInitialized();
   
@@ -74,6 +87,7 @@ void main() async {
       ),
     ),
   );
+    WidgetsFlutterBinding.ensureInitialized();
 }
 
 class MyApp extends StatelessWidget {
