@@ -10,6 +10,7 @@ class ItemCard extends StatelessWidget {
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
   final bool isAdmin;
+  final bool showActions;
 
   const ItemCard({
     Key? key,
@@ -18,6 +19,7 @@ class ItemCard extends StatelessWidget {
     this.onEdit,
     this.onDelete,
     this.isAdmin = false,
+    this.showActions = true,
   }) : super(key: key);
 
   @override
@@ -62,9 +64,9 @@ class ItemCard extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primary.withValues(
-                            red: Theme.of(context).colorScheme.primary.red,
-                            green: Theme.of(context).colorScheme.primary.green,
-                            blue: Theme.of(context).colorScheme.primary.blue,
+                            red: Theme.of(context).colorScheme.primary.r,
+                            green: Theme.of(context).colorScheme.primary.g,
+                            blue: Theme.of(context).colorScheme.primary.b,
                             alpha: 40,
                           ),
                           borderRadius: BorderRadius.circular(12),
@@ -139,7 +141,7 @@ class ItemCard extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: Colors.red.withValues(red: 200, green: 0, blue: 0, alpha: 200),
+                        color: Colors.red.withValues(red: 200.0, green: 0.0, blue: 0.0, alpha: 200.0),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
@@ -154,7 +156,7 @@ class ItemCard extends StatelessWidget {
                   ],
                   
                   // Admin actions
-                  if (isAdmin) ...[
+                  if (isAdmin && showActions) ...[
                     SizedBox(height: 16),
                     _buildAdminActions(context),
                   ],
@@ -238,10 +240,10 @@ class ItemCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
         color: color.withValues(
-          red: color.red,
-          green: color.green,
-          blue: color.blue,
-          alpha: 40,
+          red: color.r.toDouble(),
+          green: color.g.toDouble(),
+          blue: color.b.toDouble(),
+          alpha: 40.0,
         ),
         borderRadius: BorderRadius.circular(8),
       ),
