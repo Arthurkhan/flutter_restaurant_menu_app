@@ -1,62 +1,77 @@
 # Flutter Restaurant Menu App
 
-A fully offline Flutter application for restaurant menu management with admin and customer interfaces.
+A Flutter application for restaurant menu management with admin and customer interfaces.
 
 ## Features
 
-- **Fully Offline Operation**: No internet connection required for any functionality
-- **Local SQLite Database**: Store and retrieve menu data locally 
-- **Admin Interface**: Create and manage menus, categories, and items
-- **Customer Interface**: Browse menus and view items
-- **Theme Support**: Multiple built-in themes with customization options
-- **Multilingual Support**: Support for multiple languages
-
-## Usage Instructions
-
-### Image Handling
-
-Since this app works completely offline, images need to be stored locally. There are two ways to include images:
-
-1. **Asset Images**: Add images to the `assets/images/` directory and reference them with the path (e.g., `assets/images/my_image.png`). Remember to run `flutter pub get` after adding new assets.
-
-2. **Local File Images**: Use absolute file paths for images stored on the device (e.g., `/storage/emulated/0/Pictures/menu_image.jpg`).
-
-### Button Colors
-
-If you encounter any issues with button text colors, you can manually set text colors for buttons using:
-
-```dart
-ElevatedButton(
-  child: Text('Button Text', style: TextStyle(color: Colors.white)),
-  onPressed: () {},
-)
-```
-
-## Development Notes
-
-- The app uses SQLite for data persistence
-- All CRUD operations are performed locally
-- Images are stored as file paths, not URLs
-- For tablet UI, the app is optimized for landscape orientation
-
-## Project Structure
-
-- `lib/blocs/`: BLoC state management
-- `lib/config/`: App configuration and constants
-- `lib/data/`: Data models, repositories, and sources
-- `lib/presentation/`: UI screens and widgets
+- Display restaurant menu with categories and items
+- View detailed item information (allergens, options, etc.)
+- Filter menu items by category, allergens, etc.
+- Theme customization with several built-in themes
+- Image uploads for menu items and categories
 
 ## Getting Started
 
-1. Ensure Flutter is installed and up to date
-2. Clone this repository
-3. Run `flutter pub get`
-4. Run `flutter run`
+### Prerequisites
 
-## Supported Platforms
+- Flutter version 3.0.0 or higher
+- Dart SDK version 2.17.0 or higher
 
-- Android
-- iOS 
-- Windows
-- Linux
-- macOS (may require additional setup)
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/Arthurkhan/flutter_restaurant_menu_app.git
+```
+
+2. Navigate to the project directory:
+```bash
+cd flutter_restaurant_menu_app
+```
+
+3. Install dependencies:
+```bash
+flutter pub get
+```
+
+4. If you encounter any package issues (especially with image_picker), try running:
+```bash
+flutter clean
+flutter pub get
+flutter pub cache repair
+```
+
+5. Run the app:
+```bash
+flutter run
+```
+
+## Code Structure
+
+- `/lib/blocs` - BLoC state management classes
+- `/lib/config` - App configuration (themes, routes, constants)
+- `/lib/data` - Data layer (models, repositories, services)
+- `/lib/presentation` - UI layer (screens, widgets)
+- `/lib/utils` - Utility functions and helpers
+
+## Troubleshooting
+
+### Image Picker Issues
+
+If you encounter issues with the `image_picker` package, make sure to:
+
+1. Check if the package is correctly specified in pubspec.yaml
+2. Run `flutter clean` and `flutter pub get`
+3. For Android: Ensure the required permissions are set in AndroidManifest.xml
+4. For iOS: Ensure the required permissions are set in Info.plist
+
+### Database Issues
+
+If you encounter issues with the local database:
+
+1. Make sure you have the latest versions of sqflite and sqflite_common_ffi
+2. For desktop platforms (Windows/Linux), ensure sqfliteFfiInit() is called before database operations
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
