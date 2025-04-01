@@ -44,7 +44,7 @@ class ImageHelper {
   static Future<ImageSource?> _showImageSourceDialog(BuildContext context) async {
     return await showModalBottomSheet<ImageSource>(
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (context) {
@@ -59,22 +59,22 @@ class ImageHelper {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
-              Divider(),
+              const Divider(),
               ListTile(
-                leading: Icon(Icons.camera_alt),
-                title: Text('Camera'),
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Camera'),
                 onTap: () {
                   Navigator.of(context).pop(ImageSource.camera);
                 },
               ),
               ListTile(
-                leading: Icon(Icons.photo_library),
-                title: Text('Gallery'),
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Gallery'),
                 onTap: () {
                   Navigator.of(context).pop(ImageSource.gallery);
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
             ],
           ),
         );
@@ -221,12 +221,12 @@ class ImageHelper {
                 bottom: 12,
                 right: 12,
                 child: Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.camera_alt,
                     color: Colors.white,
                     size: 20,
