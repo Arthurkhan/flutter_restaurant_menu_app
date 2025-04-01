@@ -13,6 +13,12 @@ class MenuItem extends Equatable {
   final Map<String, String> translations;
   final Map<String, dynamic> nutritionalInfo;
   final Map<String, dynamic> customFields;
+  
+  // Added properties for dietary information
+  final bool isVegetarian;
+  final bool isVegan;
+  final bool isGlutenFree;
+  final int spicyLevel; // 0-5 scale where 0 is not spicy, 5 is extremely spicy
 
   const MenuItem({
     required this.id,
@@ -26,6 +32,10 @@ class MenuItem extends Equatable {
     this.translations = const {},
     this.nutritionalInfo = const {},
     this.customFields = const {},
+    this.isVegetarian = false,
+    this.isVegan = false, 
+    this.isGlutenFree = false,
+    this.spicyLevel = 0,
   });
 
   /// Creates a MenuItem from JSON data
@@ -45,6 +55,10 @@ class MenuItem extends Equatable {
           {},
       nutritionalInfo: json['nutritionalInfo'] as Map<String, dynamic>? ?? {},
       customFields: json['customFields'] as Map<String, dynamic>? ?? {},
+      isVegetarian: json['isVegetarian'] as bool? ?? false,
+      isVegan: json['isVegan'] as bool? ?? false,
+      isGlutenFree: json['isGlutenFree'] as bool? ?? false,
+      spicyLevel: json['spicyLevel'] as int? ?? 0,
     );
   }
 
@@ -62,6 +76,10 @@ class MenuItem extends Equatable {
       'translations': translations,
       'nutritionalInfo': nutritionalInfo,
       'customFields': customFields,
+      'isVegetarian': isVegetarian,
+      'isVegan': isVegan,
+      'isGlutenFree': isGlutenFree,
+      'spicyLevel': spicyLevel,
     };
   }
 
@@ -78,6 +96,10 @@ class MenuItem extends Equatable {
     Map<String, String>? translations,
     Map<String, dynamic>? nutritionalInfo,
     Map<String, dynamic>? customFields,
+    bool? isVegetarian,
+    bool? isVegan,
+    bool? isGlutenFree,
+    int? spicyLevel,
   }) {
     return MenuItem(
       id: id ?? this.id,
@@ -91,6 +113,10 @@ class MenuItem extends Equatable {
       translations: translations ?? this.translations,
       nutritionalInfo: nutritionalInfo ?? this.nutritionalInfo,
       customFields: customFields ?? this.customFields,
+      isVegetarian: isVegetarian ?? this.isVegetarian,
+      isVegan: isVegan ?? this.isVegan,
+      isGlutenFree: isGlutenFree ?? this.isGlutenFree,
+      spicyLevel: spicyLevel ?? this.spicyLevel,
     );
   }
 
@@ -116,5 +142,9 @@ class MenuItem extends Equatable {
         displayOrder,
         translations,
         nutritionalInfo,
+        isVegetarian,
+        isVegan,
+        isGlutenFree,
+        spicyLevel,
       ];
 }
