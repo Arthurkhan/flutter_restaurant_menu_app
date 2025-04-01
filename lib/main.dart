@@ -13,22 +13,19 @@ import 'data/datasources/local_menu_data_source.dart';
 import 'data/repositories/menu_repository.dart';
 import 'presentation/screens/splash_screen.dart';
 
-import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'dart:io';
 
 void main() async {
+  // Ensure Flutter binding is initialized
+  WidgetsFlutterBinding.ensureInitialized();
 
-   if (Platform.isWindows || Platform.isLinux) {
+  if (Platform.isWindows || Platform.isLinux) {
     // Initialize FFI
     sqfliteFfiInit();
     // Change the default factory
     databaseFactory = databaseFactoryFfi;
   }
-
-  // Ensure Flutter binding is initialized
-  WidgetsFlutterBinding.ensureInitialized();
   
   // Initialize dependencies
   final sharedPreferences = await SharedPreferences.getInstance();
