@@ -137,8 +137,8 @@ class MenuCard extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
               color: menu.isActive
-                  ? Colors.green.withValues(red: 0.0, green: 150.0, blue: 0.0, alpha: 200.0)
-                  : Colors.red.withValues(red: 200.0, green: 0.0, blue: 0.0, alpha: 200.0),
+                  ? Colors.green.withOpacity(0.8)
+                  : Colors.red.withOpacity(0.8),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
@@ -227,7 +227,32 @@ class MenuCard extends StatelessWidget {
             style: TextButton.styleFrom(
               foregroundColor: Colors.red,
             ),
-            onPressed: onDelete,
+            onPressed: () {
+              // Show confirmation dialog before deleting
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text('Delete Menu'),
+                  content: Text('Are you sure you want to delete this menu?'),
+                  actions: [
+                    TextButton(
+                      child: Text('Cancel'),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                    TextButton(
+                      child: Text('Delete'),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.red,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        onDelete!();
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
       ],
     );
