@@ -11,6 +11,8 @@ class MenuCategory extends Equatable {
   final int displayOrder;
   final bool isVisible;
   final Map<String, dynamic> customFields;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const MenuCategory({
     required this.id,
@@ -21,6 +23,8 @@ class MenuCategory extends Equatable {
     this.displayOrder = 0,
     this.isVisible = true,
     this.customFields = const {},
+    this.createdAt,
+    this.updatedAt,
   });
 
   /// Creates a MenuCategory from JSON data
@@ -36,6 +40,8 @@ class MenuCategory extends Equatable {
       displayOrder: json['displayOrder'] as int? ?? 0,
       isVisible: json['isVisible'] as bool? ?? true,
       customFields: json['customFields'] as Map<String, dynamic>? ?? {},
+      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
+      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
     );
   }
 
@@ -50,6 +56,8 @@ class MenuCategory extends Equatable {
       'displayOrder': displayOrder,
       'isVisible': isVisible,
       'customFields': customFields,
+      'createdAt': createdAt?.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
     };
   }
 
@@ -63,6 +71,8 @@ class MenuCategory extends Equatable {
     int? displayOrder,
     bool? isVisible,
     Map<String, dynamic>? customFields,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
     return MenuCategory(
       id: id ?? this.id,
@@ -73,6 +83,8 @@ class MenuCategory extends Equatable {
       displayOrder: displayOrder ?? this.displayOrder,
       isVisible: isVisible ?? this.isVisible,
       customFields: customFields ?? this.customFields,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
@@ -85,5 +97,8 @@ class MenuCategory extends Equatable {
         items,
         displayOrder,
         isVisible,
+        customFields,
+        createdAt,
+        updatedAt,
       ];
 }
