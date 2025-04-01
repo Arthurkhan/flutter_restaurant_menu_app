@@ -19,6 +19,14 @@ class MenuItem extends Equatable {
   final bool isVegan;
   final bool isGlutenFree;
   final int spicyLevel; // 0-5 scale where 0 is not spicy, 5 is extremely spicy
+  
+  // Added properties that were missing and causing errors
+  final String? categoryId;
+  final bool isSpecial;
+  final List<String> allergens;
+  final List<Map<String, dynamic>> options;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const MenuItem({
     required this.id,
@@ -36,6 +44,12 @@ class MenuItem extends Equatable {
     this.isVegan = false, 
     this.isGlutenFree = false,
     this.spicyLevel = 0,
+    this.categoryId,
+    this.isSpecial = false,
+    this.allergens = const [],
+    this.options = const [],
+    this.createdAt,
+    this.updatedAt,
   });
 
   /// Creates a MenuItem from JSON data
@@ -59,6 +73,12 @@ class MenuItem extends Equatable {
       isVegan: json['isVegan'] as bool? ?? false,
       isGlutenFree: json['isGlutenFree'] as bool? ?? false,
       spicyLevel: json['spicyLevel'] as int? ?? 0,
+      categoryId: json['categoryId'] as String?,
+      isSpecial: json['isSpecial'] as bool? ?? false,
+      allergens: (json['allergens'] as List?)?.map((e) => e as String).toList() ?? [],
+      options: (json['options'] as List?)?.map((e) => e as Map<String, dynamic>).toList() ?? [],
+      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
+      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
     );
   }
 
@@ -80,6 +100,12 @@ class MenuItem extends Equatable {
       'isVegan': isVegan,
       'isGlutenFree': isGlutenFree,
       'spicyLevel': spicyLevel,
+      'categoryId': categoryId,
+      'isSpecial': isSpecial,
+      'allergens': allergens,
+      'options': options,
+      'createdAt': createdAt?.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
     };
   }
 
@@ -100,6 +126,12 @@ class MenuItem extends Equatable {
     bool? isVegan,
     bool? isGlutenFree,
     int? spicyLevel,
+    String? categoryId,
+    bool? isSpecial,
+    List<String>? allergens,
+    List<Map<String, dynamic>>? options,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
     return MenuItem(
       id: id ?? this.id,
@@ -117,6 +149,12 @@ class MenuItem extends Equatable {
       isVegan: isVegan ?? this.isVegan,
       isGlutenFree: isGlutenFree ?? this.isGlutenFree,
       spicyLevel: spicyLevel ?? this.spicyLevel,
+      categoryId: categoryId ?? this.categoryId,
+      isSpecial: isSpecial ?? this.isSpecial,
+      allergens: allergens ?? this.allergens,
+      options: options ?? this.options,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
@@ -146,5 +184,11 @@ class MenuItem extends Equatable {
         isVegan,
         isGlutenFree,
         spicyLevel,
+        categoryId,
+        isSpecial,
+        allergens,
+        options,
+        createdAt,
+        updatedAt,
       ];
 }
