@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../config/routes.dart';
 import '../../config/constants.dart';
 import '../../blocs/menu/menu_bloc.dart';
+import '../../data/services/demo_data_service.dart';
+import '../../data/repositories/menu_repository.dart';
 import 'package:path_provider/path_provider.dart';
 
 /// Enhanced splash screen with initial app setup and resource creation
@@ -173,8 +175,21 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   /// Create a demo menu if no menus exist
   Future<void> _createDemoMenu() async {
     try {
-      // TODO: Create demo menu data
       _updateStatus("Creating demo menu...", 0.8);
+      
+      // Get the menu repository from the BLoC
+      final menuRepository = context.read<MenuRepository>();
+      
+      // Create demo data service
+      final demoDataService = DemoDataService(menuRepository);
+      
+      // Generate demo menu
+      final demoMenu = await demoDataService.generateDemoMenu();
+      
+      // Refresh the menu list in the BLoC
+      final menuBloc = context.read<MenuBloc>();
+      menuBloc.add(LoadAllMenus());
+      
       await Future.delayed(const Duration(milliseconds: 500)); // Simulated delay
     } catch (e) {
       debugPrint('Error creating demo menu: $e');
