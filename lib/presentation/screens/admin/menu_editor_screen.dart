@@ -6,6 +6,7 @@ import '../../../config/routes.dart';
 import '../../../data/models/menu.dart';
 import '../../widgets/loading_view.dart';
 import '../../widgets/error_view.dart';
+import 'dart:io';
 
 /// Screen for creating or editing a menu
 class MenuEditorScreen extends StatefulWidget {
@@ -174,20 +175,28 @@ class _MenuEditorScreenState extends State<MenuEditorScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Menu image preview
-            if (_imageUrlController.text.isNotEmpty)
-              Container(
-                height: 200,
-                width: double.infinity,
-                margin: const EdgeInsets.only(bottom: 16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  image: DecorationImage(
-                    image: NetworkImage(_imageUrlController.text),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+            // Menu image preview (show placeholder if empty or not found)
+            Container(
+              height: 200,
+              width: double.infinity,
+              margin: const EdgeInsets.only(bottom: 16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.grey[300],
               ),
+              child: _imageUrlController.text.isEmpty 
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.image, size: 48, color: Colors.grey[600]),
+                        SizedBox(height: 8),
+                        Text('No Image', style: TextStyle(color: Colors.grey[600])),
+                      ],
+                    ),
+                  )
+                : _buildImageContent(),
+            ),
             
             // Name field
             TextFormField(
@@ -227,12 +236,12 @@ class _MenuEditorScreenState extends State<MenuEditorScreen> {
             ),
             SizedBox(height: 16),
             
-            // Image URL field
+            // Image path field (modified for local asset paths)
             TextFormField(
               controller: _imageUrlController,
               decoration: InputDecoration(
-                labelText: 'Image URL',
-                hintText: 'Enter image URL',
+                labelText: 'Image Path',
+                hintText: 'Enter local asset path (e.g., assets/images/menu.png)',
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.image),
                 suffixIcon: IconButton(
@@ -332,5 +341,65 @@ class _MenuEditorScreenState extends State<MenuEditorScreen> {
         ),
       ),
     );
+  }
+  
+  /// Build the appropriate image content based on the path
+  Widget _buildImageContent() {
+    final imagePath = _imageUrlController.text;
+    
+    // Check if it's an asset path
+    if (imagePath.startsWith('assets/')) {
+      return Image.asset(
+        imagePath,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.error_outline, size: 48, color: Colors.red[300]),
+                SizedBox(height: 8),
+                Text('Failed to load image', style: TextStyle(color: Colors.red[300])),
+              ],
+            ),
+          );
+        },
+      );
+    } 
+    // Check if it's a local file path
+    else if (imagePath.startsWith('/')) {
+      return Image.file(
+        File(imagePath),
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.error_outline, size: 48, color: Colors.red[300]),
+                SizedBox(height: 8),
+                Text('Failed to load image', style: TextStyle(color: Colors.red[300])),
+              ],
+            ),
+          );
+        },
+      );
+    } 
+    // Display placeholder for other paths (like network URLs)
+    else {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.warning_amber_rounded, size: 48, color: Colors.amber[700]),
+            SizedBox(height: 8),
+            Text('Network images not supported in offline mode', 
+              style: TextStyle(color: Colors.amber[700]),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
