@@ -1,148 +1,62 @@
 # Flutter Restaurant Menu App
 
-A complete Flutter application for restaurant menu management with both admin and customer interfaces. This app allows restaurant owners to create and manage their digital menus while providing customers with a user-friendly interface to browse menu items.
+A fully offline Flutter application for restaurant menu management with admin and customer interfaces.
 
 ## Features
 
-### Admin Interface
-- Create and manage multiple menus
-- Organize items by categories
-- Add, edit, and remove menu items
-- Customize appearance with theme editor
-- Preview menu as customers will see it
-- Responsive layouts for different screen sizes
+- **Fully Offline Operation**: No internet connection required for any functionality
+- **Local SQLite Database**: Store and retrieve menu data locally 
+- **Admin Interface**: Create and manage menus, categories, and items
+- **Customer Interface**: Browse menus and view items
+- **Theme Support**: Multiple built-in themes with customization options
+- **Multilingual Support**: Support for multiple languages
 
-### Customer Interface
-- Browse menus and categories
-- View detailed item information
-- Search and filter menu items
-- Optimized for tablet displays
-- Multi-language support
+## Usage Instructions
 
-## Technology Stack
+### Image Handling
 
-- **Framework**: Flutter
-- **State Management**: Flutter BLoC with Equatable
-- **Data Persistence**: SQLite (sqflite), Shared Preferences
-- **Networking**: HTTP
-- **Image Caching**: Cached Network Image
-- **Architecture**: Clean Architecture with Repository Pattern
-- **Localization**: Flutter Localization
+Since this app works completely offline, images need to be stored locally. There are two ways to include images:
+
+1. **Asset Images**: Add images to the `assets/images/` directory and reference them with the path (e.g., `assets/images/my_image.png`). Remember to run `flutter pub get` after adding new assets.
+
+2. **Local File Images**: Use absolute file paths for images stored on the device (e.g., `/storage/emulated/0/Pictures/menu_image.jpg`).
+
+### Button Colors
+
+If you encounter any issues with button text colors, you can manually set text colors for buttons using:
+
+```dart
+ElevatedButton(
+  child: Text('Button Text', style: TextStyle(color: Colors.white)),
+  onPressed: () {},
+)
+```
+
+## Development Notes
+
+- The app uses SQLite for data persistence
+- All CRUD operations are performed locally
+- Images are stored as file paths, not URLs
+- For tablet UI, the app is optimized for landscape orientation
 
 ## Project Structure
 
-```
-lib/
-├── blocs/           # Business Logic Components
-│   ├── menu/        # Menu-related blocs
-│   └── theme/       # Theme-related blocs
-├── config/          # App configuration
-│   ├── constants.dart
-│   ├── routes.dart
-│   └── themes.dart
-├── data/            # Data layer
-│   ├── datasources/ # Remote and local data sources
-│   ├── models/      # Data models
-│   └── repositories/# Repositories
-├── presentation/    # UI layer
-│   ├── screens/     # App screens
-│   │   ├── admin/   # Admin interface screens
-│   │   └── customer/# Customer interface screens
-│   └── widgets/     # Reusable widgets
-├── utils/           # Utility classes and functions
-└── main.dart        # App entry point
-```
+- `lib/blocs/`: BLoC state management
+- `lib/config/`: App configuration and constants
+- `lib/data/`: Data models, repositories, and sources
+- `lib/presentation/`: UI screens and widgets
 
 ## Getting Started
 
-### Prerequisites
-- Flutter SDK (2.17.0 or higher)
-- Dart SDK (2.17.0 or higher)
-- Android Studio / VS Code
-- An Android or iOS device/emulator
+1. Ensure Flutter is installed and up to date
+2. Clone this repository
+3. Run `flutter pub get`
+4. Run `flutter run`
 
-### Installation
+## Supported Platforms
 
-1. Clone this repository
-   ```
-   git clone https://github.com/Arthurkhan/flutter-restaurant-menu-app.git
-   ```
-
-2. Navigate to the project directory
-   ```
-   cd flutter-restaurant-menu-app
-   ```
-
-3. Install dependencies
-   ```
-   flutter pub get
-   ```
-
-4. Run the app
-   ```
-   flutter run
-   ```
-
-## Usage
-
-### Admin Mode
-
-1. Access the admin dashboard by tapping on the admin icon in the settings
-2. Create a new menu or select an existing one to edit
-3. Add categories to organize your menu items
-4. Add items to categories with descriptions, prices, and images
-5. Preview your menu as customers will see it
-
-### Customer Mode
-
-1. Browse available menus
-2. Select a menu to view its categories
-3. Tap on a category to see its items
-4. View detailed information about each item
-
-## Customization
-
-### Themes
-
-The app includes several built-in themes:
-- Light Theme
-- Dark Theme
-- Restaurant Theme (warm colors)
-- Cafe Theme (earthy tones)
-
-You can also create custom themes with:
-- Custom primary and accent colors
-- Custom font families
-- Adjustable border radius and other UI elements
-
-### Localization
-
-The app supports multiple languages including:
-- English
-- Spanish
-- French
-- German
-- Italian
-
-## Roadmap
-
-- [ ] Add authentication system
-- [ ] Implement online synchronization
-- [ ] Add order management
-- [ ] Implement analytics dashboard
-- [ ] Add printing support for physical menus
-- [ ] Support for menu item variants and options
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+- Android
+- iOS 
+- Windows
+- Linux
+- macOS (may require additional setup)
