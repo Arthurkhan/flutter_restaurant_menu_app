@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +21,15 @@ void main() async {
   // Ensure Flutter binding is initialized
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Set preferred orientations
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]);
+
+  // Initialize FFI for desktop platforms
   if (Platform.isWindows || Platform.isLinux) {
     // Initialize FFI
     sqfliteFfiInit();
@@ -47,13 +57,13 @@ void main() async {
     },
   );
   
-  // Initialize local data source only
+  // Initialize local data source
   final localDataSource = LocalMenuDataSource(
     database: database,
     preferences: sharedPreferences,
   );
   
-  // Initialize repository with only local data source
+  // Initialize repository with local data source
   final menuRepository = MenuRepository(localDataSource);
   
   // Run the app
@@ -73,13 +83,16 @@ void main() async {
             create: (context) => MenuBloc(menuRepository),
           ),
         ],
-        child: MyApp(),
+        child: const MyApp(),
       ),
     ),
   );
 }
 
+/// Main app widget
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
@@ -87,6 +100,10 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Restaurant Menu App',
           theme: themeState.appTheme.theme,
+          darkTheme: themeState.appTheme.isDark 
+              ? themeState.appTheme.theme
+              : null,
+          themeMode: ThemeMode.system,
           debugShowCheckedModeBanner: false,
           initialRoute: AppRoutes.splash,
           onGenerateRoute: AppRoutes.generateRoute,
@@ -104,5 +121,26 @@ class MyApp extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+/// BLoC observer for logging events, transitions, and errors
+class AppBlocObserver extends BlocObserver {
+  @override
+  void onEvent(Bloc bloc, Object? event) {
+    super.onEvent(bloc, event);
+    debugPrint('${bloc.runtimeType} $event');
+  }
+
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    debugPrint('${bloc.runtimeType} $transition');
+  }
+
+  @override
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    debugPrint('${bloc.runtimeType} $error $stackTrace');
+    super.onError(bloc, error, stackTrace);
   }
 }
