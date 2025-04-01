@@ -16,11 +16,19 @@ class AppTheme {
   final AppThemeType type;
   final bool isCustom;
   
+  // Add missing properties
+  final Color primaryColor;
+  final Color accentColor;
+  final bool isDark;
+  
   const AppTheme({
     required this.theme,
     required this.name,
     required this.type,
     this.isCustom = false,
+    required this.primaryColor,
+    required this.accentColor,
+    required this.isDark,
   });
   
   /// Creates a copy of AppTheme with provided changes
@@ -29,12 +37,18 @@ class AppTheme {
     String? name,
     AppThemeType? type,
     bool? isCustom,
+    Color? primaryColor,
+    Color? accentColor,
+    bool? isDark,
   }) {
     return AppTheme(
       theme: theme ?? this.theme,
       name: name ?? this.name,
       type: type ?? this.type,
       isCustom: isCustom ?? this.isCustom,
+      primaryColor: primaryColor ?? this.primaryColor,
+      accentColor: accentColor ?? this.accentColor,
+      isDark: isDark ?? this.isDark,
     );
   }
 }
@@ -248,21 +262,33 @@ class AppThemes {
       theme: lightTheme,
       name: 'Light',
       type: AppThemeType.light,
+      primaryColor: Colors.blue,
+      accentColor: Colors.blueAccent,
+      isDark: false,
     ),
     AppThemeType.dark: AppTheme(
       theme: darkTheme,
       name: 'Dark',
       type: AppThemeType.dark,
+      primaryColor: Colors.blueAccent,
+      accentColor: Colors.lightBlueAccent,
+      isDark: true,
     ),
     AppThemeType.restaurant: AppTheme(
       theme: restaurantTheme,
       name: 'Restaurant',
       type: AppThemeType.restaurant,
+      primaryColor: Colors.deepOrange,
+      accentColor: Colors.amber,
+      isDark: false,
     ),
     AppThemeType.cafe: AppTheme(
       theme: cafeTheme,
       name: 'Cafe',
       type: AppThemeType.cafe,
+      primaryColor: Colors.brown,
+      accentColor: Colors.green[700]!,
+      isDark: false,
     ),
   };
   
@@ -276,6 +302,7 @@ class AppThemes {
     String? fontFamily,
   }) {
     final baseTheme = themes[baseThemeType]!.theme;
+    final isDark = baseTheme.brightness == Brightness.dark;
     
     // Instead of using copyWith for fontFamily, create a new ThemeData
     final customTheme = ThemeData(
@@ -308,6 +335,14 @@ class AppThemes {
       name: name,
       type: AppThemeType.custom,
       isCustom: true,
+      primaryColor: primaryColor,
+      accentColor: secondaryColor,
+      isDark: isDark,
     );
+  }
+  
+  /// Get a theme name by type
+  static String getThemeName(AppThemeType type) {
+    return themes[type]?.name ?? 'Unknown';
   }
 }
