@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:path/path.dart';
 
 import 'blocs/theme/theme_bloc.dart';
@@ -12,9 +12,7 @@ import 'config/routes.dart';
 import 'config/constants.dart';
 import 'data/datasources/local_menu_data_source.dart';
 import 'data/repositories/menu_repository.dart';
-import 'presentation/screens/splash_screen.dart';
 
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'dart:io';
 
 void main() async {
@@ -109,7 +107,7 @@ class MyApp extends StatelessWidget {
           onGenerateRoute: AppRoutes.generateRoute,
           
           // Add support for multiple languages
-          localizationsDelegates: [
+          localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
