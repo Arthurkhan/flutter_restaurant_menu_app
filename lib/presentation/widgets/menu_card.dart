@@ -1,82 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:io';
 import '../../data/models/menu.dart';
+import '../../config/constants.dart';
+import '../../config/routes.dart';
 
-/// Widget that displays a menu card
+/// Card widget for displaying menu in grid/list
 class MenuCard extends StatelessWidget {
   final Menu menu;
-  final Function() onTap;
-  final bool showActions;
-  final Function()? onEdit;
-  final Function()? onDelete;
-  
+  final VoidCallback? onTap;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
+  final bool isAdmin;
+
   const MenuCard({
     Key? key,
     required this.menu,
-    required this.onTap,
-    this.showActions = false,
+    this.onTap,
     this.onEdit,
     this.onDelete,
+    this.isAdmin = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       clipBehavior: Clip.antiAlias,
-      elevation: 3,
+      elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
-        onTap: onTap,
+        onTap: onTap ?? () {
+          Navigator.of(context).pushNamed(
+            AppRoutes.menuDetails.replaceAll(':id', menu.id),
+          );
+        },
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Menu image
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child: menu.imageUrl.isNotEmpty
-                  ? CachedNetworkImage(
-                      imageUrl: menu.imageUrl,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      errorWidget: (context, url, error) => Container(
-                        color: Theme.of(context).primaryColor.withOpacity(0.1),
-                        child: Icon(
-                          Icons.restaurant_menu,
-                          color: Theme.of(context).primaryColor,
-                          size: 48,
-                        ),
-                      ),
-                    )
-                  : Container(
-                      color: Theme.of(context).primaryColor.withOpacity(0.1),
-                      child: Center(
-                        child: Icon(
-                          Icons.restaurant_menu,
-                          color: Theme.of(context).primaryColor,
-                          size: 48,
-                        ),
-                      ),
-                    ),
-            ),
+            _buildImage(),
             
             // Menu details
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Menu name
                   Text(
                     menu.name,
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    style: Theme.of(context).textTheme.titleLarge,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 4),
                   
                   // Menu description
                   Text(
@@ -89,104 +67,172 @@ class MenuCard extends StatelessWidget {
                   
                   // Menu metadata
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(
-                        Icons.category,
-                        size: 16,
-                        color: Colors.grey[600],
+                      // Categories count
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.category_outlined,
+                            size: 16,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          SizedBox(width: 4),
+                          Text(
+                            '${menu.categories.length} categories',
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 4),
-                      Text(
-                        '${menu.categories.length} categories',
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 12,
-                        ),
-                      ),
-                      SizedBox(width: 12),
-                      Icon(
-                        Icons.restaurant,
-                        size: 16,
-                        color: Colors.grey[600],
-                      ),
-                      SizedBox(width: 4),
-                      Text(
-                        '${menu.allItems.length} items',
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 12,
-                        ),
+                      
+                      // Updated date
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.update,
+                            size: 16,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          SizedBox(width: 4),
+                          Text(
+                            _formatDate(menu.updatedAt),
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
                       ),
                     ],
                   ),
+                  
+                  // Admin actions
+                  if (isAdmin) ...[
+                    SizedBox(height: 16),
+                    _buildAdminActions(context),
+                  ],
                 ],
               ),
             ),
-            
-            // Action buttons (edit/delete) if showActions is true
-            if (showActions) ...[
-              Divider(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    // Edit button
-                    if (onEdit != null)
-                      IconButton(
-                        icon: Icon(Icons.edit),
-                        tooltip: 'Edit menu',
-                        onPressed: onEdit,
-                      ),
-                    
-                    // Delete button
-                    if (onDelete != null)
-                      IconButton(
-                        icon: Icon(Icons.delete),
-                        tooltip: 'Delete menu',
-                        color: Colors.red[400],
-                        onPressed: () {
-                          _showDeleteConfirmationDialog(context);
-                        },
-                      ),
-                  ],
-                ),
-              ),
-            ],
           ],
         ),
       ),
     );
   }
   
-  /// Shows a confirmation dialog before deleting a menu
-  void _showDeleteConfirmationDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Delete Menu'),
-        content: Text('Are you sure you want to delete "${menu.name}"? This action cannot be undone.'),
-        actions: [
-          TextButton(
-            child: Text('Cancel'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: Text(
-              'Delete',
-              style: TextStyle(color: Colors.red),
+  /// Builds the image section of the card
+  Widget _buildImage() {
+    return Stack(
+      children: [
+        SizedBox(
+          height: 150,
+          width: double.infinity,
+          child: _getImageWidget(),
+        ),
+        
+        // Active/Inactive badge
+        Positioned(
+          top: 8,
+          right: 8,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: menu.isActive
+                  ? Colors.green.withValues(red: 0, green: 150, blue: 0, alpha: 200)
+                  : Colors.red.withValues(red: 200, green: 0, blue: 0, alpha: 200),
+              borderRadius: BorderRadius.circular(12),
             ),
-            onPressed: () {
-              Navigator.of(context).pop();
-              if (onDelete != null) {
-                onDelete!();
-              }
-            },
+            child: Text(
+              menu.isActive ? 'Active' : 'Inactive',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-        ],
+        ),
+      ],
+    );
+  }
+  
+  /// Returns the appropriate image widget based on the image path
+  Widget _getImageWidget() {
+    final imagePath = menu.imageUrl;
+    
+    if (imagePath.isEmpty) {
+      // Use placeholder if no image
+      return Image.asset(
+        AppConstants.placeholderImagePath,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return _buildPlaceholder();
+        },
+      );
+    } else if (imagePath.startsWith('assets/')) {
+      // Use asset image
+      return Image.asset(
+        imagePath,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return _buildPlaceholder();
+        },
+      );
+    } else if (imagePath.startsWith('/')) {
+      // Use local file image
+      return Image.file(
+        File(imagePath),
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return _buildPlaceholder();
+        },
+      );
+    } else {
+      // Fallback to placeholder
+      return _buildPlaceholder();
+    }
+  }
+  
+  /// Builds a placeholder widget
+  Widget _buildPlaceholder() {
+    return Container(
+      color: Colors.grey[300],
+      child: Center(
+        child: Icon(
+          Icons.restaurant_menu,
+          size: 48,
+          color: Colors.grey[600],
+        ),
       ),
     );
+  }
+  
+  /// Builds admin action buttons (edit/delete)
+  Widget _buildAdminActions(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        // Edit button
+        if (onEdit != null)
+          TextButton.icon(
+            icon: Icon(Icons.edit),
+            label: Text('Edit'),
+            onPressed: onEdit,
+          ),
+        
+        // Delete button
+        if (onDelete != null)
+          TextButton.icon(
+            icon: Icon(Icons.delete),
+            label: Text('Delete'),
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.red,
+            ),
+            onPressed: onDelete,
+          ),
+      ],
+    );
+  }
+  
+  /// Formats a date to a display-friendly string
+  String _formatDate(DateTime date) {
+    return '${date.day}/${date.month}/${date.year}';
   }
 }
